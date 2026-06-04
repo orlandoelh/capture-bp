@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Captura de Sueño — Yanbal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face {
+      font-family: "Maison Neue";
+      src: url("./ui_resources/Maison Neue/MaisonNeue-Book.otf") format("opentype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Maison Neue";
+      src: url("./ui_resources/Maison Neue/MaisonNeue-Demi.otf") format("opentype");
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    body { font-family: "Maison Neue", sans-serif; }
+
+    /* Solo el step activo es visible */
+    .step { display: none; }
+    .step.active { display: flex; }
+  </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col items-center">
+
+  <!-- Barra de progreso global: full-width del viewport, fija en el top -->
+  <div class="fixed top-0 left-0 w-full h-2 z-50 overflow-hidden" style="background:#f9c7b6;display:none">
+    <div id="global-progress" class="h-2 transition-all duration-300" style="background:#c94e22;width:0%"></div>
+  </div>
+
+  <!-- Espaciador para compensar la barra fija -->
+  <div class="w-full h-2"></div>
+
+  <!-- ============================================================
+       STEP 0: Intro / Home  (barra: 0%)
+       Pantallas intro/celebración: botón siempre activo
+  ============================================================ -->
+  <div id="step-0" class="step active w-full max-w-[360px] min-h-[calc(100vh-8px)] flex-col" style="background:#DC582A">
+
+    <!-- Zona 2: Contenido -->
+    <div class="flex-1 p-6 overflow-y-auto flex flex-col items-center justify-center">
+      <div class="flex justify-center w-full mb-6">
+        <img src="./ui_resources/steps_ilustrations/screen0.png" alt="" aria-hidden="true"
+          class="w-[312px] h-[232px] object-contain" />
+      </div>
+      <h1 class="text-white text-center mb-4 font-semibold tracking-[0.2px]" style="font-size:32px;line-height:40px">¡Hola Lourdes!</h1>
+      <p class="text-sm font-semibold text-white text-center mb-8 max-w-[312px] leading-5 tracking-[0.2px]">
+        Hoy comenzamos a trazar tu Plan de Negocio Yanbal. Esto es lo que obtendrás al terminar:
+      </p>
+      <div class="flex flex-col gap-6 w-full max-w-[312px]">
+        <div class="flex items-center gap-4">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-white" style="background:#1c1f28;font-size:16px;font-weight:600;line-height:24px;letter-spacing:0.2px">1</div>
+          <p class="text-white tracking-[0.2px]" style="font-size:14px;line-height:20px;font-weight:400">Un resumen de las metas más importantes para el 2025</p>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-white" style="background:#1c1f28;font-size:16px;font-weight:600;line-height:24px;letter-spacing:0.2px">2</div>
+          <p class="text-white tracking-[0.2px]" style="font-size:14px;line-height:20px;font-weight:400">Recomendaciones accionables de campo</p>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-white" style="background:#1c1f28;font-size:16px;font-weight:600;line-height:24px;letter-spacing:0.2px">3</div>
+          <p class="text-white tracking-[0.2px]" style="font-size:14px;line-height:20px;font-weight:400">Tu Mapa de Sueños</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zona 3: Footer (mismo naranja, sin borde) -->
+    <div class="h-[92px] p-6 flex items-center justify-center" style="background:#DC582A">
+      <button onclick="nextStep()"
+        class="w-[312px] h-14 rounded-full bg-white font-semibold text-sm tracking-[0.2px] transition-all hover:opacity-90 active:scale-[0.98] text-[#1c1f28]">
+        ¡Comencemos!
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       STEP 1: Antes de comenzar  (barra: 10%)
+  ============================================================ -->
+  <div id="step-1" class="step w-full max-w-[360px] min-h-[calc(100vh-8px)] flex-col bg-white">
+
+    <div class="flex-1 p-6 overflow-y-auto flex flex-col items-center justify-center">
+      <div class="flex justify-center w-full mb-6">
+        <img src="./ui_resources/steps_ilustrations/screen1.png" alt="" aria-hidden="true"
+          class="w-[312px] h-[200px] object-contain" />
+      </div>
+      <h2 class="text-2xl font-semibold text-[#1c1f28] text-center mb-6">Antes de comenzar, te recomendamos:</h2>
+      <div class="flex flex-col gap-6 w-full max-w-[312px]">
+        <div class="flex items-start gap-4">
+          <div class="w-8 h-8 rounded-full bg-[#1c1f28] text-white flex items-center justify-center flex-shrink-0 text-xs font-semibold">1</div>
+          <p style="font-size:16px;font-weight:400;line-height:24px;letter-spacing:0.2px;color:#1c1f28">Búsca un lugar tranquilo donde puedas concentrarte durante 20 minutos.</p>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="w-8 h-8 rounded-full bg-[#1c1f28] text-white flex items-center justify-center flex-shrink-0 text-xs font-semibold">2</div>
+          <p style="font-size:16px;font-weight:400;line-height:24px;letter-spacing:0.2px;color:#1c1f28">Pon música que te ayude a relajarte y reflexionar.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-[92px] p-6 bg-white flex items-center justify-center">
+      <button onclick="nextStep()"
+        class="w-[312px] h-14 rounded-full bg-[#DC582A] text-white font-semibold text-sm tracking-[0.2px] hover:bg-[#c94e22] active:bg-[#a83c18] transition-all">
+        Continuar
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       STEP 2: Intro sueño personal  (barra: 20%)
+  ============================================================ -->
+  <div id="step-2" class="step w-full max-w-[360px] min-h-[calc(100vh-8px)] flex-col" style="background:linear-gradient(to bottom, #FFDFC6 313px, white 313px)">
+
+    <div class="flex-1 overflow-y-auto flex flex-col">
+      <!-- Ilustración: fondo coconut + path + personaje -->
+      <div class="relative w-full flex-shrink-0" style="height:337px; background:#FFDFC6">
+        <img src="./ui_resources/steps_ilustrations/screen2_path.png" alt="" aria-hidden="true"
+          class="absolute bottom-0 left-0 w-full object-cover" style="height:241px" />
+        <img src="./ui_resources/steps_ilustrations/screen2.png" alt="" aria-hidden="true"
+          class="absolute bottom-0 left-1/2 -translate-x-1/2 object-contain z-10" style="width:85px;height:162px" />
+      </div>
+      <!-- Texto -->
+      <div class="flex flex-col items-center px-6 pt-10 pb-6 bg-white rounded-t-3xl -mt-6 flex-1">
+        <h2 class="text-center mb-4" style="font-size:22px;font-weight:600;line-height:32px;letter-spacing:0.2px;color:#1C1F28">Empecemos trazando tu Sueño personal</h2>
+        <p class="text-center max-w-[312px]" style="font-size:16px;font-weight:400;line-height:24px;letter-spacing:0.2px;color:#494C53">
+          El Sueño es ese objetivo personal que te motivará e impulsará a retarte y lograr todos tus objetivos.
+        </p>
+      </div>
+    </div>
+
+    <div class="h-[92px] p-6 bg-white flex items-center justify-center">
+      <button onclick="nextStep()"
+        class="w-[312px] h-14 rounded-full bg-[#DC582A] text-white font-semibold text-sm tracking-[0.2px] hover:bg-[#c94e22] active:bg-[#a83c18] transition-all">
+        Comenzar
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       STEP 3: Sueño — texto libre  (barra: 30%)
+       Botón deshabilitado hasta que textarea tenga valor
+  ============================================================ -->
+  <div id="step-3" class="step w-full max-w-[360px] min-h-[calc(100vh-8px)] flex-col bg-white">
+
+    <div class="flex-1 p-6 overflow-y-auto">
+      <button onclick="prevStep()" class="flex items-center gap-1 text-sm text-[#1c1f28] mb-6">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M12.5 15L7.5 10L12.5 5" stroke="#1c1f28" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Regresar
+      </button>
+      <div class="flex justify-center w-full mt-4 mb-4">
+        <img src="./ui_resources/steps_ilustrations/screen3.png" alt="" aria-hidden="true"
+          class="w-[210px] h-[210px] object-contain" />
+      </div>
+      <h2 class="text-2xl font-semibold text-[#1c1f28] mb-2">¿Cuál es tu sueño personal para este 2025?</h2>
+      <p class="text-sm text-[#575b66] mb-6">
+        Por ejemplo: Irme de viaje con mi familia, hacer el segundo piso de mi casa, renovar mis muebles.
+      </p>
+      <textarea id="sueno-texto" placeholder="Escribe tu sueño aquí" rows="6"
+        oninput="activateBtn('btn-3', this.value.trim().length > 0)"
+        class="w-full rounded-lg border border-[#e6e8ec] px-4 py-3 text-sm text-[#1c1f28] placeholder:text-[#a4a5a9] resize-none outline-none focus:border-[#c94e22] transition-colors leading-5"></textarea>
+    </div>
+
+    <div class="h-[92px] p-6 bg-white flex items-center justify-center">
+      <button id="btn-3" disabled onclick="nextStep()"
+        class="cta-btn w-[312px] h-14 rounded-full font-semibold text-sm tracking-[0.2px] transition-all">
+        Continuar
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       STEP 4: Sueño — imagen  (barra: 40%)
+       Botón deshabilitado hasta seleccionar imagen
+  ============================================================ -->
+  <div id="step-4" class="step w-full max-w-[360px] min-h-[calc(100vh-8px)] flex-col bg-white">
+
+    <div class="flex-1 p-6 overflow-y-auto">
+      <button onclick="prevStep()" class="flex items-center gap-1 text-sm text-[#1c1f28] mb-6">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M12.5 15L7.5 10L12.5 5" stroke="#1c1f28" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Regresar
+      </button>
+      <h2 class="text-2xl font-semibold text-[#1c1f28] mb-2">Elige una imagen que te inspire</h2>
+      <p class="text-sm text-[#575b66] mb-6">Selecciona la que mejor represente tu sueño.</p>
+      <div class="grid grid-cols-2 gap-3 w-full" id="grid-sueno">
+        <button class="img-card aspect-square rounded-xl border-2 border-transparent overflow-hidden bg-[#f5f3ef] transition-all"
+          onclick="selectImg(this,'btn-4','sueno_imagen')" data-val="sueno-1">
+          <img src="./ui_resources/steps_ilustrations/screen4_1.png" alt="" class="w-full h-full object-cover" />
+        </button>
+        <button class="img-card aspect-square rounded-xl border-2 border-transparent overflow-hidden bg-[#f5f3ef] transition-all"
+          onclick="selectImg(this,'btn-4','sueno_imagen')" data-val="sueno-2">
+          <img src="./ui_resources/steps_ilustrations/screen4_2.png" alt="" class="w-full h-full object-cover" />
+        </button>
+        <button class="img-card aspect-square rounded-xl border-2 border-transparent overflow-hidden bg-[#f5f3ef] transition-all"
+          onclick="selectImg(this,'btn-4','sueno_imagen')" data-val="sueno-3">
+          <img src="./ui_resources/steps_ilustrations/screen4_3.png" alt="" class="w-full h-full object-cover" />
+        </button>
+        <button class="img-card aspect-square rounded-xl border-2 border-transparent overflow-hidden bg-[#f5f3ef] transition-all"
+          onclick="selectImg(this,'btn-4','sueno_imagen')" data-val="sueno-4">
+          <img src="./ui_resources/steps_ilustrations/screen4_4.png" alt="" class="w-full h-full object-cover" />
+        </button>
+        <button class="img-card aspect-square rounded-xl border-2 border-transparent overflow-hidden bg-[#f5f3ef] transition-all"
+          onclick="selectImg(this,'btn-4','sueno_imagen')" data-val="sueno-5">
+          <img src="./ui_resources/steps_ilustrations/screen4_5.png" alt="" class="w-full h-full object-cover" />
+        </button>
+        <button class="img-card aspect-square rounded-xl border-2 border-transparent overflow-hidden bg-[#f5f3ef] transition-all"
+          onclick="selectImg(this,'btn-4','sueno_imagen')" data-val="sueno-6">
+          <img src="./ui_resources/steps_ilustrations/screen4_6.png" alt="" class="w-full h-full object-cover" />
+        </button>
+      </div>
+    </div>
+
+    <div class="h-[92px] p-6 bg-white flex items-center justify-center">
+      <button id="btn-4" disabled onclick="nextStep()"
+        class="cta-btn w-[312px] h-14 rounded-full font-semibold text-sm tracking-[0.2px] transition-all">
+        Continuar
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       STEP 5: Sueño — costo  (barra: 50%)
+  ============================================================ -->
+  <div id="step-5" class="step w-full max-w-[360px] min-h-[calc(100vh-8px)] flex-col bg-white">
+
+    <div class="flex-1 p-6 overflow-y-auto">
+      <button onclick="prevStep()" class="flex items-center gap-1 text-sm text-[#1c1f28] mb-6">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M12.5 15L7.5 10L12.5 5" stroke="#1c1f28" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Regresar
+      </button>
+      <div class="flex justify-center w-full mb-4">
+        <img src="./ui_resources/steps_ilustrations/screen5.png" alt="" aria-hidden="true"
+          class="w-[210px] h-[210px] object-contain" />
+      </div>
+      <h2 class="text-2xl font-semibold text-[#1c1f28] mb-2">¿Cuál es el costo total de tu sueño?</h2>
+      <p class="text-sm text-[#575b66] mb-6">
+        Cuánto tendrías que invertir para lograrlo. Si no sabes el monto exacto pon uno aproximado.
+      </p>
+      <label class="text-sm font-semibold text-[#1c1f28] block mb-2">Monto</label>
+      <div class="flex items-center w-full border border-[#e6e8ec] rounded-lg px-4 py-3 gap-2 focus-within:border-[#c94e22] transition-colors">
+        <span class="text-sm text-[#575b66] shrink-0">S/</span>
+        <input id="sueno-costo" type="number" placeholder="0" min="1"
+          oninput="activateBtn('btn-5', this.value.trim().length > 0 && parseFloat(this.value) > 0)"
+          class="flex-1 outline-none text-sm text-[#1c1f28] placeholder:text-[#a4a5a9] bg-transparent" />
+      </div>
+    </div>
+
+    <div class="h-[92px] p-6 bg-white flex items-center justify-center">
+      <button id="btn-5" disabled onclick="nextStep()"
+        class="cta-btn w-[312px] h-14 rounded-full font-semibold text-sm tracking-[0.2px] transition-all">
+        Continuar
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       STEP 6: Sueño — campaña meta  (barra: 60%)
+  ============================================================ -->
+  <div id="step-6" class="step w-full max-w-[360px] min-h-[calc(100vh-8px)] flex-col bg-white">
+
+    <div class="flex-1 p-6 overflow-y-auto">
+      <button onclick="prevStep()" class="flex items-center gap-1 text-sm text-[#1c1f28] mb-6">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M12.5 15L7.5 10L12.5 5" stroke="#1c1f28" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Regresar
+      </button>
+      <div class="flex justify-center w-full mb-4">
+        <img src="./ui_resources/steps_ilustrations/screen6.png" alt="" aria-hidden="true"
+          class="w-[210px] h-[210px] object-contain" />
+      </div>
+      <h2 class="text-2xl font-semibold text-[#1c1f28] mb-2">¿Y para qué campaña del 2025?</h2>
+      <p class="text-sm text-[#575b66] mb-6">Selecciona la campaña en la que te gustaría juntar ese monto.</p>
+      <label class="text-sm font-semibold text-[#1c1f28] block mb-2">Campaña</label>
+      <div class="relative w-full">
+        <select id="sueno-campana"
+          onchange="activateBtn('btn-6', this.value !== '')"
+          class="w-full appearance-none border border-[#e6e8ec] rounded-lg px-4 py-3 text-sm text-[#1c1f28] bg-white outline-none focus:border-[#c94e22] transition-colors">
+          <option value="" disabled selected>Selecciona una campaña</option>
+          <option value="1">C1</option>
+          <option value="2">C2</option>
+          <option value="3">C3</option>
+          <option value="4">C4</option>
+          <option value="5">C5</option>
+          <option value="6">C6</option>
+          <option value="7">C7</option>
+          <option value="8">C8</option>
+          <option value="9">C9</option>
+          <option value="10">C10</option>
+          <option value="11">C11</option>
+          <option value="12">C12</option>
+          <option value="13">C13</option>
+        </select>
+        <svg class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M5 7.5L10 12.5L15 7.5" stroke="#1c1f28" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="h-[92px] p-6 bg-white flex items-center justify-center">
+      <button id="btn-6" disabled onclick="goToResult()"
+        class="cta-btn w-[312px] h-14 rounded-full font-semibold text-sm tracking-[0.2px] transition-all">
+        Continuar
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       STEP 7: Resultado / celebración  (barra: 70%)
+  ============================================================ -->
+  <div id="step-7" class="step w-full max-w-[360px] min-h-[calc(100vh-8px)] flex-col bg-white">
+
+    <div class="flex-1 p-6 overflow-y-auto flex flex-col items-center justify-center">
+      <div class="flex justify-center w-full mb-6">
+        <img src="./ui_resources/steps_ilustrations/screen7.png" alt="" aria-hidden="true"
+          class="w-[210px] h-[210px] object-contain" />
+      </div>
+      <h2 class="text-2xl font-semibold text-[#1c1f28] text-center mb-4">¡Genial Lourdes!</h2>
+      <p class="text-sm text-[#575b66] text-center mb-2">Para lograr tu sueño del 2025 necesitarías ahorrar al menos</p>
+      <p class="text-4xl font-semibold text-[#c94e22] mb-1">S/ <span id="monto-resultado">0</span></p>
+      <p class="text-xs text-[#575b66] mb-8">por campaña</p>
+      <p class="text-sm text-[#1c1f28] text-center max-w-[312px]">
+        Ahora continuemos con tu Plan de Negocio para saber cómo lograrás los honorarios necesarios.
+      </p>
+    </div>
+
+    <div class="h-[92px] p-6 bg-white flex items-center justify-center">
+      <button onclick="nextStep()"
+        class="w-[312px] h-14 rounded-full bg-[#DC582A] text-white font-semibold text-sm tracking-[0.2px] hover:bg-[#c94e22] active:bg-[#a83c18] transition-all">
+        Continuar
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       STEP 8: Motor — texto libre  (barra: 80%)
+  ============================================================ -->
+  <div id="step-8" class="step w-full max-w-[360px] min-h-[calc(100vh-8px)] flex-col bg-white">
+
+    <div class="flex-1 p-6 overflow-y-auto">
+      <button onclick="prevStep()" class="flex items-center gap-1 text-sm text-[#1c1f28] mb-6">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M12.5 15L7.5 10L12.5 5" stroke="#1c1f28" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Regresar
+      </button>
+      <div class="flex justify-center w-full mb-4">
+        <img src="./ui_resources/steps_ilustrations/screen8.png" alt="" aria-hidden="true"
+          class="w-[210px] h-[210px] object-contain" />
+      </div>
+      <h2 class="text-2xl font-semibold text-[#1c1f28] mb-2">¿Cuál es tu motor?</h2>
+      <p class="text-sm text-[#575b66] mb-6">
+        ¿Cuál es el motor que te impulsa a seguir creciendo? Date un tiempo para reflexionar. Por ejemplo: Mis papás, mis hijos, mi familia.
+      </p>
+      <textarea id="motor-texto" placeholder="Escribe aquí" rows="6"
+        oninput="activateBtn('btn-8', this.value.trim().length > 0)"
+        class="w-full rounded-lg border border-[#e6e8ec] px-4 py-3 text-sm text-[#1c1f28] placeholder:text-[#a4a5a9] resize-none outline-none focus:border-[#c94e22] transition-colors leading-5"></textarea>
+    </div>
+
+    <div class="h-[92px] p-6 bg-white flex items-center justify-center">
+      <button id="btn-8" disabled onclick="nextStep()"
+        class="cta-btn w-[312px] h-14 rounded-full font-semibold text-sm tracking-[0.2px] transition-all">
+        Continuar
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       STEP 9: Motor — imagen  (barra: 90%)
+  ============================================================ -->
+  <div id="step-9" class="step w-full max-w-[360px] min-h-[calc(100vh-8px)] flex-col bg-white">
+
+    <div class="flex-1 p-6 overflow-y-auto">
+      <button onclick="prevStep()" class="flex items-center gap-1 text-sm text-[#1c1f28] mb-6">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M12.5 15L7.5 10L12.5 5" stroke="#1c1f28" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Regresar
+      </button>
+      <h2 class="text-2xl font-semibold text-[#1c1f28] mb-2">Elige una imagen que te recuerde a tu Motor</h2>
+      <p class="text-sm text-[#575b66] mb-6">Selecciona la que mejor represente lo que te impulsa.</p>
+      <div class="grid grid-cols-2 gap-3 w-full" id="grid-motor">
+        <button class="img-card aspect-square rounded-xl border-2 border-transparent overflow-hidden bg-[#f5f3ef] transition-all"
+          onclick="selectImg(this,'btn-9','motor_imagen')" data-val="motor-1">
+          <img src="./ui_resources/steps_ilustrations/screen9_1.png" alt="" class="w-full h-full object-cover" />
+        </button>
+        <button class="img-card aspect-square rounded-xl border-2 border-transparent overflow-hidden bg-[#f5f3ef] transition-all"
+          onclick="selectImg(this,'btn-9','motor_imagen')" data-val="motor-2">
+          <img src="./ui_resources/steps_ilustrations/screen9_2.png" alt="" class="w-full h-full object-cover" />
+        </button>
+        <button class="img-card aspect-square rounded-xl border-2 border-transparent overflow-hidden bg-[#f5f3ef] transition-all"
+          onclick="selectImg(this,'btn-9','motor_imagen')" data-val="motor-3">
+          <img src="./ui_resources/steps_ilustrations/screen9_3.png" alt="" class="w-full h-full object-cover" />
+        </button>
+        <button class="img-card aspect-square rounded-xl border-2 border-transparent overflow-hidden bg-[#f5f3ef] transition-all"
+          onclick="selectImg(this,'btn-9','motor_imagen')" data-val="motor-4">
+          <img src="./ui_resources/steps_ilustrations/screen9_4.png" alt="" class="w-full h-full object-cover" />
+        </button>
+        <button class="img-card aspect-square rounded-xl border-2 border-transparent overflow-hidden bg-[#f5f3ef] transition-all"
+          onclick="selectImg(this,'btn-9','motor_imagen')" data-val="motor-5">
+          <img src="./ui_resources/steps_ilustrations/screen9_5.png" alt="" class="w-full h-full object-cover" />
+        </button>
+        <button class="img-card aspect-square rounded-xl border-2 border-transparent overflow-hidden bg-[#f5f3ef] transition-all"
+          onclick="selectImg(this,'btn-9','motor_imagen')" data-val="motor-6">
+          <img src="./ui_resources/steps_ilustrations/screen9_6.png" alt="" class="w-full h-full object-cover" />
+        </button>
+      </div>
+    </div>
+
+    <div class="h-[92px] p-6 bg-white flex items-center justify-center">
+      <button id="btn-9" disabled onclick="nextStep()"
+        class="cta-btn w-[312px] h-14 rounded-full font-semibold text-sm tracking-[0.2px] transition-all">
+        Continuar
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       STEP 10: Cierre  (barra: 100%)
+  ============================================================ -->
+  <div id="step-10" class="step w-full max-w-[360px] min-h-[calc(100vh-8px)] flex-col bg-white">
+
+    <div class="flex-1 p-6 overflow-y-auto flex flex-col items-center justify-center">
+      <div class="flex justify-center w-full mb-6">
+        <img src="./ui_resources/steps_ilustrations/screen10.png" alt="" aria-hidden="true"
+          class="w-[210px] h-[210px] object-contain" />
+      </div>
+      <h2 class="text-2xl font-semibold text-[#1c1f28] text-center mb-4">¡Muy bien Lourdes!</h2>
+      <p class="text-sm text-[#1c1f28] text-center max-w-[312px]">Continuemos con tu Plan de Negocio.</p>
+    </div>
+
+    <div class="h-[92px] p-6 bg-white flex items-center justify-center">
+      <button onclick="completeFlow()"
+        class="w-[312px] h-14 rounded-full bg-[#DC582A] text-white font-semibold text-sm tracking-[0.2px] hover:bg-[#c94e22] active:bg-[#a83c18] transition-all">
+        Siguiente paso
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       Estilos dinámicos para botones CTA
+  ============================================================ -->
+  <style>
+    /* Deshabilitado (estado por defecto de botones de captura) */
+    .cta-btn:disabled {
+      background-color: #d2d2d4;
+      color: #a4a5a9;
+      cursor: not-allowed;
+    }
+    /* Activo */
+    .cta-btn:not(:disabled) {
+      background-color: #DC582A;
+      color: #ffffff;
+      cursor: pointer;
+    }
+    .cta-btn:not(:disabled):hover { background-color: #c94e22; }
+    .cta-btn:not(:disabled):active { background-color: #a83c18; transform: scale(0.98); }
+
+    /* Imagen seleccionada */
+    .img-card.selected {
+      border-color: #c94e22;
+      box-shadow: 0 0 0 2px #c94e22;
+    }
+  </style>
+
+  <script>
+    let currentStep = 0;
+    const TOTAL_STEPS = 10;
+
+    const formData = {
+      username: 'Lourdes',
+      sueno_texto: '',
+      sueno_imagen: '',
+      sueno_costo: 0,
+      sueno_campana: 0,
+      motor_texto: '',
+      motor_imagen: ''
+    };
+
+    function goToStep(n) {
+      if (n < 0 || n > TOTAL_STEPS) return;
+      document.getElementById(`step-${currentStep}`).classList.remove('active');
+      currentStep = n;
+      const el = document.getElementById(`step-${currentStep}`);
+      el.classList.add('active');
+
+      // Fondo del body según step activo
+      document.body.style.background = currentStep === 0 ? '#DC582A' : '#ffffff';
+
+      // Ocultar barra en intro (step 0), mostrar en el resto
+      const progressBar = document.getElementById('global-progress').parentElement;
+      progressBar.style.display = currentStep === 0 ? 'none' : 'block';
+      document.getElementById('global-progress').style.width =
+        `${(currentStep / TOTAL_STEPS) * 100}%`;
+
+      window.scrollTo(0, 0);
+    }
+
+    function nextStep() { goToStep(currentStep + 1); }
+    function prevStep() { goToStep(currentStep - 1); }
+
+    // Activa o desactiva un botón CTA según condición booleana
+    function activateBtn(btnId, condition) {
+      const btn = document.getElementById(btnId);
+      btn.disabled = !condition;
+    }
+
+    // Selección de imagen en grid
+    function selectImg(el, btnId, field) {
+      el.parentElement.querySelectorAll('.img-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      formData[field] = el.dataset.val;
+      activateBtn(btnId, true);
+    }
+
+    // Step 6 → calcula monto y va a step 7
+    function goToResult() {
+      const costo = parseFloat(document.getElementById('sueno-costo').value) || 0;
+      const campana = parseInt(document.getElementById('sueno-campana').value) || 1;
+      formData.sueno_costo = costo;
+      formData.sueno_campana = campana;
+      const montoPorCampana = Math.ceil(costo / campana);
+      document.getElementById('monto-resultado').textContent =
+        montoPorCampana.toLocaleString('es-PE');
+      nextStep();
+    }
+
+    // Fondo naranja en el intro al cargar
+    document.body.style.background = '#DC582A';
+
+    function completeFlow() {
+      console.log('Flujo completado:', formData);
+      // TODO: integrar con el portal Yanbal
+    }
+  </script>
+
+</body>
+</html>
